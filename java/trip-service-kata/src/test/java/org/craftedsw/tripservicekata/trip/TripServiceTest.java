@@ -4,13 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.craftedsw.tripservicekata.user.User;
 import org.junit.jupiter.api.Test;
 
 public class TripServiceTest {
   @Test
   void logged_user_without_friend() {
-    TripService tripService = new TripServiceDouble(new User());
+    TripService tripService = new TripServiceDouble(new User(), null);
     List<Trip> trips = tripService.getTripsByUser(new User());
     assertThat(trips).isEqualTo(new ArrayList<>());
   }
@@ -20,15 +21,23 @@ public class TripServiceTest {
     User user = new User();
     User friend = new User();
     user.addFriend(friend);
-    TripService tripService = new TripServiceDouble(friend);
+    TripService tripService = new TripServiceDouble(friend, List.of(new Trip()));
     assertThat(tripService.getTripsByUser(user)).hasSize(1);
   }
 
   private static class TripServiceDouble extends TripService {
     private final User user;
+    private List<Trip> trips;
 
-    public TripServiceDouble(User user) {
+    public TripServiceDouble(User user, List<Trip> trips) {
       this.user = user;
+      this.trips = trips;
+    }
+
+    @Override
+    List<Trip> findTripsByUser(User user) {
+
+      return trips;
     }
 
     @Override
