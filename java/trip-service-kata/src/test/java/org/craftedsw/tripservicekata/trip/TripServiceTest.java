@@ -49,14 +49,14 @@ public class TripServiceTest {
     private List<Trip> trips;
 
     public TripServiceDouble(User user, List<Trip> trips) {
+      super(new TripDAO() {
+        @Override
+        public List<Trip> getTripsByUser(User user) {
+          return trips;
+        }
+      });
       this.user = user;
       this.trips = trips;
-    }
-
-    @Override
-    List<Trip> findTripsByUser(User user) {
-
-      return trips;
     }
 
     @Override
