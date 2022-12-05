@@ -25,7 +25,7 @@ public class TripServiceTest {
   }
 
   @Test
-  void with_friend() {
+  void trips_should_be_empty_users_are_not_friend() {
 
     User user = new User();
     user.addFriend(new User());
@@ -34,7 +34,7 @@ public class TripServiceTest {
   }
 
   @Test
-  void with_friend2() {
+  void trips_should_not_be_empty_users_are_friend() {
 
     User user = new User();
     TripServiceMockWithUser tripServiceMockWithUser = new TripServiceMockWithUser();
