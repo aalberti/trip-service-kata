@@ -3,7 +3,6 @@ package org.craftedsw.tripservicekata.trip;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
@@ -15,7 +14,17 @@ public class TripServiceTest {
   void logged_user_without_friend() {
     TripService tripService = new TripServiceDouble(new User(), null);
     List<Trip> trips = tripService.getTripsByUser(new User());
-    assertThat(trips).isEqualTo(new ArrayList<>());
+    assertThat(trips).isEmpty();
+  }
+
+  @Test
+  void logged_lonely_user() {
+    User user = new User();
+    User friend = new User();
+    User stranger = new User();
+    user.addFriend(friend);
+    TripService tripService = new TripServiceDouble(stranger, List.of(new Trip()));
+    assertThat(tripService.getTripsByUser(user)).hasSize(0);
   }
 
   @Test
