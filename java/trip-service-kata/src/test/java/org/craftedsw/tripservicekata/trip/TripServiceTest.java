@@ -1,12 +1,13 @@
 package org.craftedsw.tripservicekata.trip;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-
-import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TripServiceTest {
 
@@ -45,23 +46,22 @@ public class TripServiceTest {
 
   private static class TripServiceDouble extends TripService {
 
-    private final User user;
-    private List<Trip> trips;
-
     public TripServiceDouble(User user, List<Trip> trips) {
-      super(new TripDAO() {
-        @Override
-        public List<Trip> getTripsByUser(User user) {
-          return trips;
-        }
-      });
-      this.user = user;
+      super(new TripServiceTest.TripDAODouble(trips), () -> user);
+    }
+
+  }
+
+  private static class TripDAODouble extends TripDAO {
+    private final List<Trip> trips;
+
+    public TripDAODouble(List<Trip> trips) {
       this.trips = trips;
     }
 
     @Override
-    User getLoggedUser() {
-      return user;
+    public List<Trip> getTripsByUser(User user) {
+      return trips;
     }
   }
 }
