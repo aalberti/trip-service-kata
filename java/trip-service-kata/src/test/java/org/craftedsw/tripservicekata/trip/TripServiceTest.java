@@ -3,7 +3,6 @@ package org.craftedsw.tripservicekata.trip;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
 import org.craftedsw.tripservicekata.user.User;
@@ -46,6 +45,10 @@ public class TripServiceTest {
 
   static class TripServiceMockWithNullUser extends TripService {
 
+    TripServiceMockWithNullUser() {
+      super(new TripDAO());
+    }
+
     @Override
     public User getLoggedUser() {
       return null;
@@ -55,6 +58,10 @@ public class TripServiceTest {
   static class TripServiceMockWithUser extends TripService {
 
     User loggedUser = new User();
+
+    TripServiceMockWithUser() {
+      super(new TripDAO());
+    }
 
     @Override
     public User getLoggedUser() {
