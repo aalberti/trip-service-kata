@@ -36,11 +36,11 @@ public class TripServiceTest {
   @Test
   void trips_should_not_be_empty_users_are_friend() {
 
-    User user = new User();
-    TripServiceMockWithUser tripServiceMockWithUser = new TripServiceMockWithUser();
-    User loggedUser = tripServiceMockWithUser.getLoggedUser();
-    user.addFriend(loggedUser);
-    List<Trip> trips = tripServiceMockWithUser.getTripsByUser(user);
+    User Boob = new User();
+    User Alice = new User();
+    TripService tripService = new TripService(new TripDAOMock(), new UserSessionMock(Alice));
+    Boob.addFriend(Alice);
+    List<Trip> trips = tripService.getTripsByUser(Boob);
     assertThat(trips).isNotEmpty();
   }
 
