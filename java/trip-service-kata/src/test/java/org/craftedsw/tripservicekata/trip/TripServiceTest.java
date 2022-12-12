@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.craftedsw.tripservicekata.exception.UserNotLoggedInException;
+import org.craftedsw.tripservicekata.user.IuserSession;
 import org.craftedsw.tripservicekata.user.User;
 import org.junit.jupiter.api.Test;
 
@@ -46,26 +47,14 @@ public class TripServiceTest {
   static class TripServiceMockWithNullUser extends TripService {
 
     TripServiceMockWithNullUser() {
-      super(new TripDAOImpl());
-    }
-
-    @Override
-    public User getLoggedUser() {
-      return null;
+      super(new TripDAOImpl(), new UserSessionMock(null));
     }
   }
 
   static class TripServiceMockWithUser extends TripService {
 
-    User loggedUser = new User();
-
     TripServiceMockWithUser() {
-      super(new TripDAOMock());
-    }
-
-    @Override
-    public User getLoggedUser() {
-      return loggedUser;
+      super(new TripDAOMock(), new UserSessionMock(new User()));
     }
   }
 
@@ -74,6 +63,19 @@ public class TripServiceTest {
     @Override
     public List<Trip> tripsByUser(User user) {
       return List.of(new Trip());
+    }
+  }
+
+  static class UserSessionMock implements IuserSession {
+
+    final User loggedUser;
+
+    UserSessionMock(User loggedUser) {
+      this.loggedUser = loggedUser;
+    }
+
+    public User loggedUser() {
+      return loggedUser;
     }
   }
 }
