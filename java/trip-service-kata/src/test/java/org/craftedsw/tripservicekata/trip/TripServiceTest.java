@@ -46,7 +46,7 @@ public class TripServiceTest {
   static class TripServiceMockWithNullUser extends TripService {
 
     TripServiceMockWithNullUser() {
-      super(new TripDAO());
+      super(new TripDAOImpl());
     }
 
     @Override
@@ -60,16 +60,19 @@ public class TripServiceTest {
     User loggedUser = new User();
 
     TripServiceMockWithUser() {
-      super(new TripDAO());
+      super(new TripDAOMock());
     }
 
     @Override
     public User getLoggedUser() {
       return loggedUser;
     }
+  }
+
+  static class TripDAOMock implements TripDAO {
 
     @Override
-    public List<Trip> findTripsByUser(User user) {
+    public List<Trip> tripsByUser(User user) {
       return List.of(new Trip());
     }
   }

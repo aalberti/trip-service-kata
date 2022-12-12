@@ -23,7 +23,7 @@ public class TripService {
     }
 
     boolean isFriend = isFriend(user, loggedUser);
-    return isFriend ? findTripsByUser(user) : new ArrayList<>();
+    return isFriend ? tripDAO.tripsByUser(user) : new ArrayList<>();
   }
 
   private boolean isFriend(User user, User loggedUser) {
@@ -33,10 +33,6 @@ public class TripService {
       }
     }
     return false;
-  }
-
-  List<Trip> findTripsByUser(User user) {
-    return tripDAO.tripsByUser(user);
   }
 
   User getLoggedUser() {
