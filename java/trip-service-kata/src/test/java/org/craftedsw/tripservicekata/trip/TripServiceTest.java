@@ -39,6 +39,21 @@ public class TripServiceTest {
   }
 
   @Test
+  void should_return_empty_list_when_loggedUser_not_friend() {
+    User user = new User();
+    user.addFriend(new User());
+    user.addFriend(new User());
+    TripService tripService = new TripService() {
+      User getLoggedUser() {
+        return new User();
+      }
+    };
+    List<Trip> listTrip = tripService.getTripsByUser(user);
+
+    assertThat(listTrip).isEmpty();
+  }
+
+  @Test
   void should_return_not_empty_list_when_loggedUser_has_no_friend() {
     User user = new User();
     TripService tripService = new TripService() {
